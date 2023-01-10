@@ -13,7 +13,7 @@ const Map = () => {
   return (
     <div className="w-screen h-screen">
       <GoogleMapReact
-        bootstrapURLKeys={{ key: "AIzaSyBcDkRQQAitiXbFuF0A4RWKd8c2dyz2Iwo" }}
+        bootstrapURLKeys={{ key: process.env.API_KEY }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
       ></GoogleMapReact>
