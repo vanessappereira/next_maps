@@ -3,7 +3,7 @@ import Map from "./components/Map";
 
 function App() {
   return (
-    <div className="w-screen h-screen bg-green-500">
+    <div className="w-screen h-screen">
       <Map />
     </div>
   );
