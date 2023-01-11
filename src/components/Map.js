@@ -1,17 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from "@reach/combobox";
 import "@reach/combobox/styles.css";
+import { useReportContext } from "../hooks/useReportContext";
+import { PlacesAutocomplete } from "./Places";
 
 const Map = () => {
   const defaultProps = {
@@ -32,64 +23,41 @@ const Map = () => {
 };
 
 function ActualMap({ props }) {
-  const [selected, setSelected] = useState([]);
+  const { reports, dispatch } = useReportContext();
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      const response = await fetch("http://localhost:5000/api/report");
+      const json = await response.json();
+
+      if (response.ok) {
+        dispatch({ type: "SET_REPORTS", payload: json });
+      }
+    };
+
+    fetchReports();
+  }, [dispatch]);
 
   return (
     <>
       <div className="absolute top-10 left-1/2 w-300 z-10 transform translate-x-50%">
-        <PlacesAutocomplete setSelected={setSelected} selected={selected} />
+        <PlacesAutocomplete dispatch={dispatch} />
       </div>
       <GoogleMap
         zoom={props.zoom}
         center={props.center}
         mapContainerClassName="w-screen h-screen"
       >
-        {selected.map((selection, index) => (
-          <Marker position={selection} key={index} />
-        ))}
+        {reports &&
+          reports.map((report) => (
+            <Marker
+              position={{ lat: report.lat, lng: report.lng }}
+              key={report._id}
+            />
+          ))}
       </GoogleMap>
     </>
   );
 }
-
-const PlacesAutocomplete = ({ setSelected, selected }) => {
-  const {
-    ready,
-    value,
-    setValue,
-    suggestions: { status, data },
-    clearSuggestions,
-  } = usePlacesAutocomplete();
-
-  const handleSelect = async (address) => {
-    setValue(address, false);
-    clearSuggestions();
-
-    const results = await getGeocode({ address });
-    const { lat, lng } = await getLatLng(results[0]);
-    setSelected([...selected, { lat, lng }]);
-    console.log(selected);
-  };
-
-  return (
-    <Combobox onSelect={handleSelect}>
-      <ComboboxInput
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        disabled={!ready}
-        className="w-100 p-1"
-        placeholder="Search an address"
-      />
-      <ComboboxPopover>
-        <ComboboxList>
-          {status === "OK" &&
-            data.map(({ place_id, description }) => (
-              <ComboboxOption key={place_id} value={description} />
-            ))}
-        </ComboboxList>
-      </ComboboxPopover>
-    </Combobox>
-  );
-};
 
 export default Map;
