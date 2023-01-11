@@ -45,7 +45,11 @@ function ActualMap({ props }) {
     fetchReports();
   }, [dispatch]);
 
-  const onLoad = useCallback((map) => (mapRef.current = map), []);
+  const onLoad = (map) => {
+    map.addListener("zoom_changed", () => {
+      props.setZoom(map.zoom);
+    });
+  };
 
   return (
     <>
@@ -65,7 +69,9 @@ function ActualMap({ props }) {
         onLoad={onLoad}
       >
         {reports &&
-          reports.map((report) => <Area report={report} key={report._id} />)}
+          reports.map((report) => (
+            <Area report={report} zoom={props.zoom} key={report._id} />
+          ))}
       </GoogleMap>
     </>
   );
