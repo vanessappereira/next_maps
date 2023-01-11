@@ -10,7 +10,7 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 
-export const PlacesAutocomplete = ({ dispatch }) => {
+export const PlacesAutocomplete = ({ dispatch, setCenter, setZoom }) => {
   const {
     ready,
     value,
@@ -26,6 +26,8 @@ export const PlacesAutocomplete = ({ dispatch }) => {
     const results = await getGeocode({ address });
     const { lat, lng } = getLatLng(results[0]);
     console.log(lat, lng);
+    setCenter({ lat, lng });
+    setZoom(12.5);
     const response = await fetch("http://localhost:5000/api/report", {
       method: "POST",
       body: JSON.stringify({ lat, lng }),

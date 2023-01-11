@@ -1,21 +1,27 @@
-import React, { useEffect } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import "@reach/combobox/styles.css";
 import { useReportContext } from "../hooks/useReportContext";
 import { PlacesAutocomplete } from "./Places";
+import Area from "./Area";
 
 const Map = () => {
+  const [center, setCenter] = useState({ lat: 39.69478, lng: -8.13027 });
+  const [zoom, setZoom] = useState(9);
+  const [libraries] = useState(["places"]);
   const defaultProps = {
-    center: {
-      lat: 39.69478,
-      lng: -8.13027,
-    },
-    zoom: 9,
+    center: center,
+    zoom: zoom,
+    mapId: "f91f236cf111997a",
+    disableDefaultUI: true,
+    clickableIcons: false,
+    setCenter: setCenter,
+    setZoom: setZoom,
   };
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
-    libraries: ["places"],
+    libraries: libraries,
   });
 
   if (!isLoaded) return <div>Loading ...</div>;
@@ -24,6 +30,7 @@ const Map = () => {
 
 function ActualMap({ props }) {
   const { reports, dispatch } = useReportContext();
+  const mapRef = useRef();
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -38,23 +45,27 @@ function ActualMap({ props }) {
     fetchReports();
   }, [dispatch]);
 
+  const onLoad = useCallback((map) => (mapRef.current = map), []);
+
   return (
     <>
       <div className="absolute top-10 left-1/2 w-300 z-10 transform translate-x-50%">
-        <PlacesAutocomplete dispatch={dispatch} />
+        <PlacesAutocomplete
+          dispatch={dispatch}
+          setCenter={props.setCenter}
+          setZoom={props.setZoom}
+        />
       </div>
       <GoogleMap
         zoom={props.zoom}
         center={props.center}
         mapContainerClassName="w-screen h-screen"
+        mapTypeId="terrain"
+        disableDefaultUI={true}
+        onLoad={onLoad}
       >
         {reports &&
-          reports.map((report) => (
-            <Marker
-              position={{ lat: report.lat, lng: report.lng }}
-              key={report._id}
-            />
-          ))}
+          reports.map((report) => <Area report={report} key={report._id} />)}
       </GoogleMap>
     </>
   );
