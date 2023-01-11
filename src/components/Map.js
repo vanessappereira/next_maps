@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import "@reach/combobox/styles.css";
 import { useReportContext } from "../hooks/useReportContext";
@@ -30,7 +30,6 @@ const Map = () => {
 
 function ActualMap({ props }) {
   const { reports, dispatch } = useReportContext();
-  const mapRef = useRef();
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -66,6 +65,7 @@ function ActualMap({ props }) {
         mapContainerClassName="w-screen h-screen"
         mapTypeId="terrain"
         disableDefaultUI={true}
+        clickableIcons={false}
         onLoad={onLoad}
       >
         {reports &&

@@ -1,19 +1,14 @@
-import { Marker, Circle } from "@react-google-maps/api";
+import { Circle } from "@react-google-maps/api";
 
 import React from "react";
 
 const Area = ({ report, zoom }) => {
   return (
     <>
-      <Marker
-        position={{ lat: report.lat, lng: report.lng }}
-        clickable={true}
-        onClick={() => console.log("hey")}
-      />
       {zoom > 10 && (
         <Circle
           center={{ lat: report.lat, lng: report.lng }}
-          radius={15000}
+          radius={1500}
           options={closeOptions}
         />
       )}

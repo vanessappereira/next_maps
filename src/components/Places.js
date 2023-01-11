@@ -23,9 +23,11 @@ export const PlacesAutocomplete = ({ dispatch, setCenter, setZoom }) => {
     setValue(address, false);
     clearSuggestions();
 
+    console.log(address);
+
     const results = await getGeocode({ address });
     const { lat, lng } = getLatLng(results[0]);
-    console.log(lat, lng);
+    console.log(results[0].address_components[1]);
     setCenter({ lat, lng });
     setZoom(12.5);
     const response = await fetch("http://localhost:5000/api/report", {
