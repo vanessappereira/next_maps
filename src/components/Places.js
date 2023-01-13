@@ -4,7 +4,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import {
   Combobox,
-  ComboboxInput,
+  // ComboboxInput,
   ComboboxPopover,
   ComboboxList,
   ComboboxOption,
@@ -12,8 +12,8 @@ import {
 
 export const PlacesAutocomplete = ({ dispatch, setCenter, setZoom }) => {
   const {
-    ready,
-    value,
+    // ready,
+    // value,
     setValue,
     suggestions: { status, data },
     clearSuggestions,
@@ -51,13 +51,13 @@ export const PlacesAutocomplete = ({ dispatch, setCenter, setZoom }) => {
 
   return (
     <Combobox onSelect={handleSelect}>
-      <ComboboxInput
+      {/* <ComboboxInput
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={!ready}
         className="w-100 p-1"
         placeholder="Search an address"
-      />
+      /> */}
       <ComboboxPopover>
         <ComboboxList>
           {status === "OK" &&
