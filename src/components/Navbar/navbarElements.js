@@ -8,29 +8,30 @@ export const DivNavbar = styled.div`
     `
 export const DivLogo = styled.div`
     display: flex;
+    order: 1;
     position: static;
     margin-left: 5px;
     `
 export const DivSearch = styled.div`
     display: flex;
-    flex-shrink: 1;
     order: 2;
     align-content: stretch;
-    text-align: center;
     justify-content: space-evenly;
+    color: rgb(6, 14, 159);
     align-items: center;
+    
     `
 export const H1 = styled.h1`
     margin-right: 10px;
+    font-weight: bold;
     `
 export const Input = styled.input`
-    width: 40%;
+    width: 37%;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    align-items: center;
     `
 export const DivInstructions = styled.div`
     display: flex;
@@ -39,12 +40,6 @@ export const DivInstructions = styled.div`
     align-content: stretch;
     justify-content: space-evenly;
     `
-export const InstrPopup = styled.div`
-    display: flex;
-    flex-grow: 1;
-    flex-wrap: wrap;
-    justify-content: center;
-`
 export const DivContact = styled.div`
     display: flex;
     position: static;
