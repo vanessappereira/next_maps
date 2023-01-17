@@ -1,5 +1,7 @@
 import * as React from 'react';
+import '../Instructions/Overlay.css';
 import imgLogo from '../../images/logo.png';
+import Instruct from '../Instructions/index';
 import {
     DivNavbar,
     DivLogo,
@@ -10,12 +12,13 @@ import {
     DivContact,
 } from './navbarElements';
 import 'reactjs-popup/dist/index.css';
-import Instructions from '../Instructions/index';
+
 
 const Navbar = () => {
     const [value, setValue] = React.useState('');
     const [inputBoxCoord, setInputBoxCoord] = React.useState(true);
     const [inputBoxAdrr, setInputBoxAdrr] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false);
 
     const options = [
         { label: 'Coordenadas', value: 'coord' },
@@ -34,10 +37,13 @@ const Navbar = () => {
             setInputBoxAdrr(false)
         }
     };
+    const handleOpenInstruct = (e) => {
+        setShowModal(!showModal)
+    }
 
     return (
         <>
-            <DivNavbar className='flex items-center '>
+            <DivNavbar className='f'>
 
                 <DivLogo>
                     <img src={imgLogo} alt="logo" />
@@ -62,7 +68,7 @@ const Navbar = () => {
                             <form className='addrInsert'>
                                 <label>
                                     <Input type="text" size="30" name="address" placeholder='Morada' />
-                                    <button  className=" submit" type="submit" > Pesquisar </button>
+                                    <button className=" submit" type="submit" > Pesquisar </button>
                                 </label>
                             </form>
                             : null}
@@ -79,7 +85,12 @@ const Navbar = () => {
                 </DivSearch>
 
                 <DivInstructions>
-                    <Instructions />
+                    <div className="modal-example">
+                        <button type="button" onClick={handleOpenInstruct}>
+                            Como Funciona
+                        </button>
+                    </div>
+                    {/* <Instructions /> */}
                 </DivInstructions>
 
                 <DivContact className='order-last contact '>
@@ -87,9 +98,8 @@ const Navbar = () => {
                         <a href="https://helica.pt" target="_blank" rel="noreferrer">Conheça a Helica</a>
                     </button>
                 </DivContact>
-
             </DivNavbar>
-
+            {showModal ? <Instruct /> : null}
         </>
     );
 }

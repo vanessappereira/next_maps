@@ -5,6 +5,9 @@ export const DivNavbar = styled.div`
     position: static;
     align-content: stretch;
     justify-content: space-evenly;
+    @media screen and (max-width: 768px) {
+        flex-wrap: wrap;
+    }
     `
 export const DivLogo = styled.div`
     display: flex;
@@ -19,6 +22,9 @@ export const DivSearch = styled.div`
     justify-content: space-evenly;
     color: rgb(6, 14, 159);
     align-items: center;
+    @media screen and (max-width: 768px) {
+        order: 4;
+    }
     
     `
 export const H1 = styled.h1`
@@ -39,10 +45,16 @@ export const DivInstructions = styled.div`
     order: 3;
     align-content: stretch;
     justify-content: space-evenly;
+    @media screen and (max-width: 768px) {
+        order: 2;        
+    }
     `
 export const DivContact = styled.div`
     display: flex;
     position: static;
     align-content: stretch;
     justify-content: space-evenly;
+    @media screen and (max-width: 768px) {
+        order: 3;        
+    }
     `
