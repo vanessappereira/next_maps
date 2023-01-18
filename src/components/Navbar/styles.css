@@ -1,5 +1,4 @@
 /* Testing stuff */
-.addrInsert {
-    display: flex;
-    justify-content: space-evenly;
+#search-button {
+  width: 35px;
 }

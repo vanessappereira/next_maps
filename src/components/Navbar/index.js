@@ -1,6 +1,4 @@
 import * as React from 'react';
-import '../Instructions/Overlay.css';
-import imgLogo from '../../images/logo.png';
 import Instruct from '../Instructions/index';
 import {
     DivNavbar,
@@ -8,10 +6,23 @@ import {
     DivSearch,
     H1,
     Input,
+    DivInsert,
+    LabelCoord,
+    LabelAddr,
+    InputAddr,
+    SelectOption,
+    Button,
     DivInstructions,
     DivContact,
 } from './navbarElements';
+
+// Css:
 import 'reactjs-popup/dist/index.css';
+import '../Instructions/Overlay.css';
+import './styles.css';
+//images
+import imgLogo from '../../images/logo.png';
+import imgSearch from '../../images/search_icon.svg';
 
 
 const Navbar = () => {
@@ -21,8 +32,8 @@ const Navbar = () => {
     const [showModal, setShowModal] = React.useState(false);
 
     const options = [
-        { label: 'Coordenadas', value: 'coord' },
-        { label: 'Morada', value: 'morada' },
+        { id: 1, label: 'Coordenadas', value: 'coord' },
+        { id: 2, label: 'Morada', value: 'morada' },
     ];
 
     const handleChangeSelection = (e) => {
@@ -37,43 +48,47 @@ const Navbar = () => {
             setInputBoxAdrr(false)
         }
     };
-    const handleOpenInstruct = (e) => {
+    const handleOpenInstruct = () => {
         setShowModal(!showModal)
     }
 
     return (
         <>
-            <DivNavbar className='f'>
-
+            <DivNavbar className='flex-auto'>
+                {/* LOGO */}
                 <DivLogo>
                     <img src={imgLogo} alt="logo" />
                 </DivLogo>
-
+                {/* SEARCH BAR */}
                 <DivSearch className='search'>
                     <div className='title'>
                         <H1>Procurar por: </H1>
                     </div>
-                    <div className='insertion'>
+                    <DivInsert>
                         {inputBoxCoord ?
                             <form className='coordInsert'>
-                                <label>
-                                    <Input type="number" name="lat" placeholder='Latitude' />
-                                    <Input type="number" name="lng" placeholder='Longitude' />
-                                    <button type="submit" name="submit"> Pesquisar </button>
-                                </label>
+                                <LabelCoord>
+                                    <Input type="number" name="lat" placeholder=' Latitude' />
+                                    <Input type="number" name="lng" placeholder=' Longitude' />
+                                    <Button type="submit btn" name="submit" id="search-button">
+                                        <embed src={imgSearch} />
+                                    </Button>
+                                </LabelCoord>
                             </form>
                             : null}
-
                         {inputBoxAdrr ?
                             <form className='addrInsert'>
-                                <label>
-                                    <Input type="text" size="30" name="address" placeholder='Morada' />
-                                    <button className=" submit" type="submit" > Pesquisar </button>
-                                </label>
+                                <LabelAddr>
+                                    <InputAddr type="text" name="address" placeholder=' Morada' />
+                                    <Button type="submit" name="submit" id="search-button">
+                                        <embed src={imgSearch} />
+                                    </Button>
+                                </LabelAddr>
                             </form>
                             : null}
-                    </div>
-                    <div className='selector'>
+                    </DivInsert>
+                    {/* SELECTOR */}
+                    <SelectOption>
                         <label>
                             <select value={value} onChange={handleChangeSelection}>
                                 {options.map((option) => (
@@ -81,18 +96,20 @@ const Navbar = () => {
                                 ))}
                             </select>
                         </label>
-                    </div>
+                    </SelectOption>
                 </DivSearch>
 
+                {/* How to */}
                 <DivInstructions>
-                    <div className="modal-example">
+                    <DivInsert>
                         <button type="button" onClick={handleOpenInstruct}>
                             Como Funciona
                         </button>
-                    </div>
-                    {/* <Instructions /> */}
+                    </DivInsert>
+                    {/* <Instructions /> not used, this has a modal*/}
                 </DivInstructions>
 
+                {/* HELICA WEBPAGE */}
                 <DivContact className='order-last contact '>
                     <button type="button" >
                         <a href="https://helica.pt" target="_blank" rel="noreferrer">Conheça a Helica</a>
